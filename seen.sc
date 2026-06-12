@@ -8,7 +8,7 @@ global_seen = {};
 __config() -> {
   'scope' -> 'global',
   'stay_loaded' -> true,
-  'command_permission' -> 1,
+  'command_permission' -> 'all',
   'commands' -> {
     '' -> 'usage',
     '<name>' -> 'seen'
