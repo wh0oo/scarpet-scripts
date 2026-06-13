@@ -57,7 +57,7 @@ Shows whether a player is currently online, or when they were last seen.
 
 #### Data File
 
-The seen data is stored by Scarpet app data, typically under:
+The seen data is stored in an NBT file:
 
 ```text
 world/scripts/seen.data.nbt
