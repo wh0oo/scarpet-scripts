@@ -1,9 +1,9 @@
 // https://github.com/wh0oo/scarpet-scripts/blob/main/ping.sc
+// ping.sc
 // Provides: /ping
 // Optional: /ping <player>
-
 global_cooldowns = {};
-global_cooldown_seconds = 7;
+global_cooldown_seconds = 3;
 
 __config() -> {
   'scope' -> 'global',
@@ -27,7 +27,7 @@ _require_player(p) -> (
 
 _check_cooldown(p, seconds) -> (
   key = p ~ 'uuid';
-  now = unix_time();
+  now = unix_time() / 1000;  // unix_time() returns ms in this Carpet build
   last = global_cooldowns:key;
   if(last && (now - last) < seconds,
     remaining = ceil(seconds - (now - last));
