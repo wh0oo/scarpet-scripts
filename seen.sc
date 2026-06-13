@@ -1,5 +1,4 @@
 // https://github.com/wh0oo/scarpet-scripts/edit/main/seen.sc
-// seen.sc
 // Provides: /seen <player>
 // Data file: world/scripts/seen.data.nbt
 
@@ -105,7 +104,7 @@ seen(name) -> (
     return()
   );
 
-  if(!_check_cooldown(caller, 10),
+  if(!_check_cooldown(caller, 5),
     return()
   );
 
