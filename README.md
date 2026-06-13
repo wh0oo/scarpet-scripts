@@ -110,13 +110,6 @@ Example output if no data exists:
 ```text
 No seen data for dontflex.
 ```
-
-## Notes
-
-These scripts are intentionally simple.
-
-The autocomplete behavior uses Scarpet command suggesters so commands suggest real player names instead of generic Brigadier examples like `word` or `words_with_underscores`.
-
 ## License
 
 Use, modify, and share freely.
