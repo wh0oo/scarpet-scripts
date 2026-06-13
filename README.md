@@ -27,6 +27,7 @@ Shows another online player's ping.
 
 - Uses Carpet/Scarpet's built-in player ping query
 - Supports online player autocomplete
+- Configurable cooldown
 - Available to all players
 - No separate mod required beyond Carpet
 
@@ -47,6 +48,7 @@ Shows whether a player is currently online, or when they were last seen.
 #### Features
 
 - Tracks player joins and disconnects
+- Configurable cooldown
 - Saves data using Scarpet app data
 - Supports autocomplete from previously seen players
 - Case-insensitive lookups
