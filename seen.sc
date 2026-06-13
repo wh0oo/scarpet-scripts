@@ -105,7 +105,7 @@ seen(name) -> (
     return()
   );
 
-  if(!_check_cooldown(caller, 5),
+  if(!_check_cooldown(caller, 10),
     return()
   );
 
