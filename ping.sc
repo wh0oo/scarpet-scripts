@@ -1,7 +1,9 @@
 // https://github.com/wh0oo/scarpet-scripts/blob/main/ping.sc
-// ping.sc
 // Provides: /ping
 // Optional: /ping <player>
+
+global_cooldowns = {};
+global_cooldown_seconds = 7;
 
 __config() -> {
   'scope' -> 'global',
@@ -12,8 +14,8 @@ __config() -> {
   },
   'arguments' -> {
     'name' -> {
-      'type' -> 'term',
-      'suggester' -> _(args) -> map(player('all'), str(_))
+      'type' -> 'players',
+      'single' -> true
     }
   }
 };
@@ -23,16 +25,30 @@ _require_player(p) -> (
   p
 );
 
+_check_cooldown(p, seconds) -> (
+  key = p ~ 'uuid';
+  now = unix_time();
+  last = global_cooldowns:key;
+  if(last && (now - last) < seconds,
+    remaining = ceil(seconds - (now - last));
+    print(p, format('r Wait ', 'e ' + remaining + 's', 'r before using this again.'));
+    false,
+    global_cooldowns:key = now;
+    true
+  )
+);
+
 ping_self() -> (
   p = _require_player(player());
-  if(p,
+  if(p && _check_cooldown(p, global_cooldown_seconds),
     print(p, format('w Pong! Your ping is ', 'e ' + query(p, 'ping') + ' ms'))
   )
 );
 
 ping_other(name) -> (
   caller = _require_player(player());
-  if(caller,
+  if(caller && _check_cooldown(caller, global_cooldown_seconds),
+    name = str(name);
     target = player(name);
     if(!target,
       print(caller, format('r Player not found: ', 'w ' + name)),
