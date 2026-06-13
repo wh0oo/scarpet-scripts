@@ -1,7 +1,7 @@
-// https://github.com/wh0oo/scarpet-scripts/blob/main/ping.sc
 // ping.sc
 // Provides: /ping
 // Optional: /ping <player>
+
 global_cooldowns = {};
 global_cooldown_seconds = 3;
 
