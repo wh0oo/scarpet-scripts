@@ -4,6 +4,7 @@
 // Data file: world/scripts/seen.data.nbt
 
 global_seen = {};
+global_cooldowns = {};
 
 __config() -> {
   'scope' -> 'global',
@@ -48,6 +49,20 @@ timestamp(t) -> (
   )
 );
 
+_check_cooldown(p, seconds) -> (
+  key = p ~ 'uuid';
+  now = unix_time();
+  last = global_cooldowns:key;
+
+  if(last && (now - last) < seconds,
+    remaining = ceil(seconds - (now - last));
+    print(p, format('r Wait ', 'e ' + remaining + 's', 'r before using this again.'));
+    false,
+    global_cooldowns:key = now;
+    true
+  )
+);
+
 record_player(p, online, trigger_save) -> (
   name = p ~ 'name';
   if(!name, return());
@@ -83,16 +98,27 @@ __on_player_disconnects(p, reason) -> (
 );
 
 seen(name) -> (
+  caller = player();
+
+  if(!caller,
+    print('This command can only be run by a player.');
+    return()
+  );
+
+  if(!_check_cooldown(caller, 5),
+    return()
+  );
+
   key = lower(name);
   rec = global_seen:key;
 
   if(!rec,
-    print(player(), str('No seen data for %s.', name));
+    print(caller, str('No seen data for %s.', name));
     return()
   );
 
   if(rec:'online',
-    print(player(), str('%s is online right now.', rec:'name')),
-    print(player(), str('%s was last seen: %s', rec:'name', rec:'last_seen_text'))
+    print(caller, str('%s is online right now.', rec:'name')),
+    print(caller, str('%s was last seen: %s', rec:'name', rec:'last_seen_text'))
   )
 );
