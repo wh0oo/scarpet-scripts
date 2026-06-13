@@ -1,3 +1,4 @@
+https://github.com/wh0oo/scarpet-scripts/blob/main/ping.sc
 // ping.sc
 // Provides: /ping
 // Optional: /ping <player>
