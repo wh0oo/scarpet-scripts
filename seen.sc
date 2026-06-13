@@ -1,9 +1,10 @@
-// https://github.com/wh0oo/scarpet-scripts/edit/main/seen.sc
+// seen.sc
 // Provides: /seen <player>
 // Data file: world/scripts/seen.data.nbt
 
 global_seen = {};
 global_cooldowns = {};
+global_cooldown_seconds = 5;
 
 __config() -> {
   'scope' -> 'global',
@@ -50,9 +51,8 @@ timestamp(t) -> (
 
 _check_cooldown(p, seconds) -> (
   key = p ~ 'uuid';
-  now = unix_time();
+  now = unix_time() / 1000;  // unix_time() returns ms in this Carpet build
   last = global_cooldowns:key;
-
   if(last && (now - last) < seconds,
     remaining = ceil(seconds - (now - last));
     print(p, format('r Wait ', 'e ' + remaining + 's', 'r before using this again.'));
@@ -65,16 +65,12 @@ _check_cooldown(p, seconds) -> (
 record_player(p, online, trigger_save) -> (
   name = p ~ 'name';
   if(!name, return());
-
   key = lower(name);
-  now = unix_time();
+  now = unix_time() / 1000;  // unix_time() returns ms in this Carpet build
   now_text = timestamp(now);
-
   old = global_seen:key;
-
   last_join_time = if(online, now, if(old, old:'last_join', now));
   last_join_str = if(online, now_text, if(old, old:'last_join_text', now_text));
-
   global_seen:key = {
     'name' -> name,
     'uuid' -> p ~ 'uuid',
@@ -84,7 +80,6 @@ record_player(p, online, trigger_save) -> (
     'last_join' -> last_join_time,
     'last_join_text' -> last_join_str
   };
-
   if(trigger_save, save_seen())
 );
 
@@ -98,24 +93,19 @@ __on_player_disconnects(p, reason) -> (
 
 seen(name) -> (
   caller = player();
-
   if(!caller,
     print('This command can only be run by a player.');
     return()
   );
-
-  if(!_check_cooldown(caller, 5),
+  if(!_check_cooldown(caller, global_cooldown_seconds),
     return()
   );
-
   key = lower(name);
   rec = global_seen:key;
-
   if(!rec,
     print(caller, str('No seen data for %s.', name));
     return()
   );
-
   if(rec:'online',
     print(caller, str('%s is online right now.', rec:'name')),
     print(caller, str('%s was last seen: %s', rec:'name', rec:'last_seen_text'))
