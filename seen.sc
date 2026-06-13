@@ -4,7 +4,7 @@
 
 global_seen = {};
 global_cooldowns = {};
-global_cooldown_seconds = 5;
+global_cooldown_seconds = 10;
 
 __config() -> {
   'scope' -> 'global',
@@ -55,7 +55,7 @@ _check_cooldown(p, seconds) -> (
   last = global_cooldowns:key;
   if(last && (now - last) < seconds,
     remaining = ceil(seconds - (now - last));
-    print(p, format('r Wait ', 'e ' + remaining + 's', 'r before using this again.'));
+    print(p, format('r Wait ', 'e ' + remaining + 's', 'r  before using this again.'));
     false,
     global_cooldowns:key = now;
     true
