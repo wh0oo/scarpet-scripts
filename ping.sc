@@ -1,6 +1,7 @@
 // ping.sc
 // Provides: /ping
 // Optional: /ping <player>
+
 __config() -> {
   'scope' -> 'global',
   'command_permission' -> 'all',
@@ -30,10 +31,11 @@ ping_self() -> (
 
 ping_other(name) -> (
   caller = _require_player(player());
-  if(!caller, return());
-  target = player(name);
-  if(!target,
-    print(caller, format('r Player not found: ', 'w ' + name)),
-    print(caller, format('w ' + name + '\'s ping is ', 'e ' + query(target, 'ping') + ' ms'))
+  if(caller,
+    target = player(name);
+    if(!target,
+      print(caller, format('r Player not found: ', 'w ' + name)),
+      print(caller, format('w ' + name + '\'s ping is ', 'e ' + query(target, 'ping') + ' ms'))
+    )
   )
 );
