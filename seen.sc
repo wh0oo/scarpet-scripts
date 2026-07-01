@@ -1,6 +1,7 @@
 // seen.sc
 // Provides: /seen <player>
 // Data file: world/scripts/seen.data.nbt
+// By: wh0oo
 
 global_seen = {};
 global_cooldowns = {};
