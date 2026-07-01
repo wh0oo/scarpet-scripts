@@ -1,6 +1,7 @@
 // ping.sc
 // Provides: /ping
 // Optional: /ping <player>
+// By: wh0oo
 
 global_cooldowns = {};
 global_cooldown_seconds = 3;
