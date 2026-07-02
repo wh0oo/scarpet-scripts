@@ -39,7 +39,8 @@ save_seen() -> (
 );
 
 usage() -> (
-  print(player(), 'Usage: /seen <player>')
+  c = player();
+  if(c, print(c, 'Usage: /seen <player>'), print('Usage: /seen <player>'))
 );
 
 timestamp(t) -> (
